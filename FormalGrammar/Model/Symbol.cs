@@ -2,12 +2,9 @@
 {
     public abstract class Symbol
     {
-        public readonly char Value;
-        public abstract bool IsTerminal { get; }
+        public abstract char Value { get; }
 
-        protected Symbol(char value) => Value = value;
-
-        public override bool Equals(object obj) => obj != null && obj is Symbol s && s.IsTerminal == IsTerminal && s.Value == Value;
+        public override bool Equals(object obj) => obj != null && obj is Symbol s && s.GetType() == GetType() && s.Value == Value;
         public override int GetHashCode() => Value.GetHashCode();
         public override string ToString() => $"{Value}";
 
@@ -17,13 +14,23 @@
 
     public class Terminal : Symbol
     {
-        public Terminal(char value) : base(value) { }
-        public override bool IsTerminal { get; } = true;
+        public Terminal(char value) => Value = value;
+        public override char Value { get; }
     }
 
     public class NonTerminal : Symbol
     {
-        public NonTerminal(char value) : base(value) { }
-        public override bool IsTerminal { get; } = false;
+        public NonTerminal(char value) => Value = value;
+        public override char Value { get; }
+    }
+
+    public class Start : Symbol
+    {
+        public override char Value { get; } = '^';
+    }
+
+    public class End : Symbol
+    {
+        public override char Value { get; } = '$';
     }
 }
