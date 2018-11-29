@@ -31,6 +31,14 @@ namespace FormalGrammar.Model
                         else if (z2 is NonTerminal z2Nt)
                             foreach (var y in first[z2Nt])
                                 greater.Add((x, y));
+
+            less.Add((new Start(), grammar.Axiom));
+            foreach (var f in first[grammar.Axiom])
+                less.Add((new Start(), f));
+
+            greater.Add((grammar.Axiom, new End()));
+            foreach (var l in last[grammar.Axiom])
+                greater.Add((l, new Start()));
         }
 
         private readonly HashSet<(Symbol, Symbol)> less = new HashSet<(Symbol, Symbol)>();
