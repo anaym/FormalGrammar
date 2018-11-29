@@ -7,7 +7,7 @@ namespace FormalGrammar.Utils
 {
     public static class GrammarParser
     {
-        public static Grammar Parse(string[] rules)
+        public static Grammar Parse(params string[] rules)
         {
             var parsed = rules.Select(Parse).ToArray();
             var axiom = parsed.First().Left;
