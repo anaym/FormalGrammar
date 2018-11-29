@@ -38,7 +38,7 @@ namespace FormalGrammar.Model
 
             greater.Add((grammar.Axiom, new End()));
             foreach (var l in last[grammar.Axiom])
-                greater.Add((l, new Start()));
+                greater.Add((l, new End()));
         }
 
         private readonly HashSet<(Symbol, Symbol)> less = new HashSet<(Symbol, Symbol)>();

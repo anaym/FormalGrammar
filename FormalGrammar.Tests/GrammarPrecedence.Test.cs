@@ -18,7 +18,7 @@ namespace FormalGrammar.Tests
 
             precedence.Less.Select(p => (p.Item1.Value, p.Item2.Value))
                 .Should()
-                .BeEquivalentTo(('a', 'F'), ('a', 'b'), ('F', 'a'), ('F', 'c'));
+                .BeEquivalentTo(('a', 'F'), ('a', 'b'), ('F', 'a'), ('F', 'c'), ('^', 'S'), ('^', 'a'), ('^', 'c'));
 
             precedence.Equal.Select(p => (p.Item1.Value, p.Item2.Value))
                 .Should()
@@ -26,7 +26,7 @@ namespace FormalGrammar.Tests
 
             precedence.Greater.Select(p => (p.Item1.Value, p.Item2.Value))
                 .Should()
-                .BeEquivalentTo(('b', 'a'), ('b', 'c'), ('b', 'b'), ('c', 'b'));
+                .BeEquivalentTo(('b', 'a'), ('b', 'c'), ('b', 'b'), ('c', 'b'), ('S', '$'), ('b', '$'), ('c', '$'));
         }
     }
 }

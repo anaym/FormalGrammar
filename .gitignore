@@ -2,3 +2,4 @@
 **/bin/
 **/obj/
 packages 
+/FormalGrammar.Tests/*.user
