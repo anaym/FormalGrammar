@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FirstLastHelper.Test.cs" />
+    <Compile Include="GrammarHelper.Test.cs" />
     <Compile Include="GrammarParser.Test.cs" />
     <Compile Include="GrammarPrecedence.Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

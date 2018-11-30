@@ -24,6 +24,6 @@ namespace FormalGrammar.Utils
             return new Rule(left, right);
         }
 
-        private static readonly Regex RuleRegex = new Regex(@"^\s*(?<NonTerm>\w)\s(?<Right>\w+)\s*$");
+        private static readonly Regex RuleRegex = new Regex(@"^\s*(?<NonTerm>\w)\s(?<Right>\w*)\s*$");
     }
 }

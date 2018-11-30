@@ -42,9 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\BfsHelper.cs" />
     <Compile Include="Model\FirstLastHelper.cs" />
     <Compile Include="Model\Grammar.cs" />
+    <Compile Include="Model\GrammarHelper.cs" />
     <Compile Include="Model\GrammarPrecedence.cs" />
+    <Compile Include="Utils\Helper.cs" />
     <Compile Include="Model\Rule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
