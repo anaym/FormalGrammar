@@ -16,7 +16,9 @@ namespace FormalGrammar.Model
 
         public override bool Equals(object obj)
         {
-            return obj != null && obj is Rule r && r.Left == Left && r.Right.Zip(Right, (a, b) => a == b).All(b => b);
+            if (obj == null || !(obj is Rule r))
+                return false;
+            return r.Left == Left && r.Right.Count == Right.Count && r.Right.Zip(Right, (a, b) => a == b).All(b => b);
         }
         public override int GetHashCode() => Left.GetHashCode();
         public override string ToString() => $"{Left} -> {string.Join("", Right)}";

@@ -28,7 +28,10 @@ namespace FormalGrammar
             var view = new GrammarPrecedenceView(s => OrderSymbols(s, ntOrder));
             var table = view.ToTable(grammarPrecedence);
 
-            File.WriteAllText(args[1], table, Encoding.UTF8);
+            var analyzer = new GrammarAnalyzer(grammarPrecedence);
+            var type = analyzer.IsSimplePrecedence ? "S" : (analyzer.IsWeakPrecedence ? "W" : "N");
+
+            File.WriteAllText(args[1], $"{table}\r\n{type}", Encoding.UTF8);
         }
 
         private static IOrderedEnumerable<Symbol> OrderSymbols(IEnumerable<Symbol> symbols, IReadOnlyDictionary<char, int> ntOrder)

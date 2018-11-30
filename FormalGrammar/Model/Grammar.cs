@@ -8,7 +8,7 @@ namespace FormalGrammar.Model
         public Grammar(NonTerminal axiom, Rule[] rules)
         {
             Axiom = axiom;
-            this.rules = rules.GroupBy(r => r.Left).ToDictionary(g => g.Key, g => (IReadOnlyList<Rule>) g.ToArray());
+            this.rules = rules.GroupBy(r => r.Left).ToDictionary(g => g.Key, g => (IReadOnlyList<Rule>) g.Distinct().ToArray());
             Symbols = rules.Select(r => r.Left).Concat(rules.SelectMany(r => r.Right)).Distinct().ToList();
             NonTerminals = Symbols.Select(s => s as NonTerminal).Where(s => s != null).ToArray();
             Terminals = Symbols.Select(s => s as Terminal).Where(s => s != null).ToArray();

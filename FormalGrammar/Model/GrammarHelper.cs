@@ -65,5 +65,66 @@ namespace FormalGrammar.Model
 
             return result;
         }
+
+        public static bool IsReversibleGrammar(this Grammar grammar)
+        {
+            foreach (var a in grammar.GetRules())
+            foreach (var b in grammar.GetRules().WhereNot(b => Equals(b, a)).Where(b => a.Right.Count == b.Right.Count))
+                if (a.Right.Zip(b.Right, (ia, ib) => ia == ib).All(l => l))
+                    return false;
+            return true;
+        }
+
+        public static IEnumerable<Rule> GetRules(this Grammar grammar)
+        {
+            return grammar.NonTerminals.SelectMany(nt => grammar[nt]);
+        }
+
+        public static bool IsWeakPrecedence(this GrammarPrecedence grammarPrecedence)
+        {
+            if (grammarPrecedence.Grammar.GetCyclicNonTerminals().Any())
+                return false;
+            if (!grammarPrecedence.Grammar.IsReversibleGrammar())
+                return false;
+            if (grammarPrecedence.Equal.Any(grammarPrecedence.IsGreater))
+                return false;
+            if (grammarPrecedence.Less.Any(grammarPrecedence.IsGreater))
+                return false;
+            if (grammarPrecedence.Less.Concat(grammarPrecedence.Greater).Any(grammarPrecedence.HasCommonEnding))
+                return false;
+            return true;
+        }
+
+        public static bool IsSimplePrecedence(this GrammarPrecedence grammarPrecedence)
+        {
+            if (grammarPrecedence.Grammar.GetCyclicNonTerminals().Any())
+                return false;
+            if (!grammarPrecedence.Grammar.IsReversibleGrammar())
+                return false;
+            foreach (var a in grammarPrecedence.Grammar.Symbols)
+            foreach (var b in grammarPrecedence.Grammar.Symbols)
+            {
+                var pair = (a, b);
+                var isLess = grammarPrecedence.IsLess(pair);
+                var isEqual = grammarPrecedence.IsEqual(pair);
+                var isGreater = grammarPrecedence.IsGreater(pair);
+                if (isLess && isEqual || isEqual && isGreater || isLess && isGreater)
+                    return false;
+            }
+            return true;
+        }
+
+        private static bool HasCommonEnding(this GrammarPrecedence grammarPrecedence, (Symbol X, Symbol B) pair)
+        {
+            if (!(pair.B is NonTerminal b))
+                return false;
+            foreach (var rule in grammarPrecedence.Grammar[b])
+            {
+                var right = new[] { pair.X }.Concat(rule.Right).ToList();
+                if (grammarPrecedence.Grammar.GetRules().Any(r => r.Right.EndsWith(right)))
+                    return true;
+            }
+            return false;
+        }
     }
 }

@@ -11,6 +11,10 @@ namespace FormalGrammar.Model
         public IEnumerable<(Symbol, Symbol)> Equal => equal;
         public IEnumerable<(Symbol, Symbol)> Greater => greater;
 
+        public bool IsLess((Symbol, Symbol) pair) => less.Contains(pair);
+        public bool IsEqual((Symbol, Symbol) pair) => equal.Contains(pair);
+        public bool IsGreater((Symbol, Symbol) pair) => greater.Contains(pair);
+
         public GrammarPrecedence(Grammar grammar)
         {
             Grammar = grammar;
