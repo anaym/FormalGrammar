@@ -32,7 +32,7 @@ namespace FormalGrammar.Model
             stack.Push(new Start());
 
             var i = 0;
-            while (i < terminalsList.Count)
+            while (i < terminalsList.Count && stack.Any())
             {
                 onIteration(stack, terminalsList.Skip(i));
                 var current = terminalsList[i];
