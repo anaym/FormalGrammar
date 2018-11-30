@@ -52,7 +52,7 @@ namespace FormalGrammar.Model
                 else if (right.All(annulmentNonTerminals.Contains))
                     foreach (var nt in right)
                         chain.Add(rule.Left, nt);
-                else if (right.SingleOrDefault(n => !annulmentNonTerminals.Contains(n)) is var nt)
+                else if (right.SingleOrDefaultSafe(n => !annulmentNonTerminals.Contains(n)) is var nt && nt != null)
                     chain.Add(rule.Left, nt);
             }
 

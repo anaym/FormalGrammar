@@ -31,7 +31,7 @@ namespace FormalGrammar
             var analyzer = new GrammarAnalyzer(grammarPrecedence);
             var type = analyzer.IsSimplePrecedence ? "S" : (analyzer.IsWeakPrecedence ? "W" : "N");
 
-            var analyzings = strings.Select(s => AnalyzeString(analyzer, s));
+            var analyzings = analyzer.IsWeakPrecedence ? strings.Select(s => AnalyzeString(analyzer, s)) : new List<string>();
 
             File.WriteAllText(args[1], $"{table}\r\n{type}\r\n\r\n{string.Join("\r\n", analyzings)}", Encoding.UTF8);
         }
@@ -75,7 +75,7 @@ namespace FormalGrammar
                 result.Add($"{string.Join("", stack.Reverse().Select(s => s.Value))} {string.Join("", left.Select(s => s.Value))}");
             }
 
-            if (!analyzer.IsAcceptable(symbols, OnIteration))
+            if (!analyzer.IsAccepted(symbols, OnIteration))
                 result.Add("error");
 
             return string.Join("\r\n", result) + "\r\n";

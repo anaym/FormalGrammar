@@ -37,5 +37,12 @@ namespace FormalGrammar.Utils
             for (var i = 0; i < count; i++)
                 stack.Pop();
         }
+        public static T SingleOrDefaultSafe<T>(this IEnumerable<T> seq, Predicate<T> predicate)
+        {
+            var filtered = seq.Where(i => predicate(i)).Take(2).ToArray();
+            if (filtered.Length != 1)
+                return default(T);
+            return filtered.Single();
+        }
     }
 }

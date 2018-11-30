@@ -21,7 +21,7 @@ namespace FormalGrammar.Model
         }
 
         public delegate void OnIteration(IEnumerable<Symbol> stack, IEnumerable<Symbol> stringLeft);
-        public bool IsAcceptable(IEnumerable<Terminal> terminals, OnIteration onIteration = null)
+        public bool IsAccepted(IEnumerable<Terminal> terminals, OnIteration onIteration = null)
         {
             onIteration = onIteration ?? ((_, __) => { });
 
