@@ -10,7 +10,7 @@ using FormalGrammar.Utils;
 
 namespace FormalGrammar
 {
-    class Program
+    public static class Program
     {
         static void Main(string[] args)
         {
@@ -31,7 +31,9 @@ namespace FormalGrammar
             var analyzer = new GrammarAnalyzer(grammarPrecedence);
             var type = analyzer.IsSimplePrecedence ? "S" : (analyzer.IsWeakPrecedence ? "W" : "N");
 
-            File.WriteAllText(args[1], $"{table}\r\n{type}", Encoding.UTF8);
+            var analyzings = strings.Select(s => AnalyzeString(analyzer, s));
+
+            File.WriteAllText(args[1], $"{table}\r\n{type}\r\n\r\n{string.Join("\r\n", analyzings)}", Encoding.UTF8);
         }
 
         private static IOrderedEnumerable<Symbol> OrderSymbols(IEnumerable<Symbol> symbols, IReadOnlyDictionary<char, int> ntOrder)
@@ -61,6 +63,22 @@ namespace FormalGrammar
                 .Select((c, i) => (c, i))
                 .ToDictionary(p => p.Item1, p => p.Item2);
             return (rules, strings, ntOrder);
+        }
+
+        private static string AnalyzeString(GrammarAnalyzer analyzer, string str)
+        {
+            var symbols = str.Select(c => new Terminal(c));
+
+            var result = new List<string>();
+            void OnIteration(IEnumerable<Symbol> stack, IEnumerable<Symbol> left)
+            {
+                result.Add($"{string.Join("", stack.Reverse().Select(s => s.Value))} {string.Join("", left.Select(s => s.Value))}");
+            }
+
+            if (!analyzer.IsAcceptable(symbols, OnIteration))
+                result.Add("error");
+
+            return string.Join("\r\n", result) + "\r\n";
         }
     }
 }

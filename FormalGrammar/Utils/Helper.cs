@@ -23,7 +23,6 @@ namespace FormalGrammar.Utils
         {
             return seq.Select(predicate).All(l => l);
         }
-
         public static bool EndsWith<T>(this IReadOnlyList<T> list, IReadOnlyList<T> ending)
         {
             if (list.Count < ending.Count)
@@ -32,6 +31,11 @@ namespace FormalGrammar.Utils
                 if (!Equals(list[list.Count - ending.Count + i], ending[i]))
                     return false;
             return true;
+        }
+        public static void PopCount<T>(this Stack<T> stack, int count)
+        {
+            for (var i = 0; i < count; i++)
+                stack.Pop();
         }
     }
 }

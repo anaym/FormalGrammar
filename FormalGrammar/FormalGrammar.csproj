@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils\ArrayIndexedDictionary.cs" />
     <Compile Include="Model\BfsHelper.cs" />
     <Compile Include="Model\FirstLastHelper.cs" />
     <Compile Include="Model\Grammar.cs" />
