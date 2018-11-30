@@ -50,6 +50,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Symbol.cs" />
     <Compile Include="Utils\GrammarParser.cs" />
+    <Compile Include="Utils\GrammarPrecedenceView.cs" />
+    <Compile Include="Utils\TableFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

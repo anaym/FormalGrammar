@@ -3,3 +3,4 @@
 **/obj/
 packages 
 /FormalGrammar.Tests/*.user
+/FormalGrammar/*.user

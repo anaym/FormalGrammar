@@ -5,12 +5,16 @@ namespace FormalGrammar.Model
 {
     public class GrammarPrecedence
     {
+        public readonly Grammar Grammar;
+
         public IEnumerable<(Symbol, Symbol)> Less => less;
         public IEnumerable<(Symbol, Symbol)> Equal => equal;
         public IEnumerable<(Symbol, Symbol)> Greater => greater;
 
         public GrammarPrecedence(Grammar grammar)
         {
+            Grammar = grammar;
+
             var first = grammar.NonTerminals.ToDictionary(s => s, grammar.GetAllFirstSymbols);
             var last = grammar.NonTerminals.ToDictionary(s => s, grammar.GetAllLastSymbols);
 
