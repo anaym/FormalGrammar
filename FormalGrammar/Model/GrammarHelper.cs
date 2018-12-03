@@ -69,9 +69,9 @@ namespace FormalGrammar.Model
         public static bool IsReversibleGrammar(this Grammar grammar)
         {
             foreach (var a in grammar.GetRules())
-            foreach (var b in grammar.GetRules().WhereNot(b => Equals(b, a)).Where(b => a.Right.Count == b.Right.Count))
-                if (a.Right.Zip(b.Right, (ia, ib) => ia == ib).All(l => l))
-                    return false;
+                foreach (var b in grammar.GetRules().WhereNot(b => Equals(b, a)).Where(b => a.Right.Count == b.Right.Count))
+                    if (a.Right.Zip(b.Right, (ia, ib) => ia == ib).All(l => l))
+                        return false;
             return true;
         }
 
@@ -90,7 +90,7 @@ namespace FormalGrammar.Model
                 return false;
             if (grammarPrecedence.Less.Any(grammarPrecedence.IsGreater))
                 return false;
-            if (grammarPrecedence.Less.Concat(grammarPrecedence.Greater).Any(grammarPrecedence.HasCommonEnding))
+            if (grammarPrecedence.HasAmbiguousEndedRules())
                 return false;
             return true;
         }
@@ -114,16 +114,22 @@ namespace FormalGrammar.Model
             return true;
         }
 
-        private static bool HasCommonEnding(this GrammarPrecedence grammarPrecedence, (Symbol X, Symbol B) pair)
+        private static bool HasAmbiguousEndedRules(this GrammarPrecedence grammar)
         {
-            if (!(pair.B is NonTerminal b))
-                return false;
-            foreach (var rule in grammarPrecedence.Grammar[b])
+            foreach (var sRule in grammar.Grammar.GetRules())
             {
-                var right = new[] { pair.X }.Concat(rule.Right).ToList();
-                if (grammarPrecedence.Grammar.GetRules().Any(r => r.Right.EndsWith(right)))
-                    return true;
+                foreach (var aRule in grammar.Grammar.GetRules())
+                {
+                    if (sRule.Right.Count > aRule.Right.Count && aRule.Right.Any() && sRule.Right.EndsWith(aRule.Right))
+                    {
+                        var x = sRule.Right[sRule.Right.Count - aRule.Right.Count - 1];
+                        var a = aRule.Left;
+                        if (grammar.IsEqual((x, a)) || grammar.IsLess((x, a)))
+                            return true;
+                    }
+                }
             }
+
             return false;
         }
     }
